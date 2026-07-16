@@ -37,11 +37,13 @@ struct ArrayContainsMatcher<Variant: Encodable>: Matcher {
 	enum CodingKeys: String, CodingKey {
 		case type = "pact:matcher:type"
 		case variants
+        case value
 	}
 
 	func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode("arrayContains", forKey: .type)
 		try container.encode(variants, forKey: .variants)
+        try container.encode(variants, forKey: .value)   // ← enables nested reification
 	}
 }
